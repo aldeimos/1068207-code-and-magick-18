@@ -42,10 +42,18 @@ for (var i = 0; i < 4; i++) {
   wizards[i] = getRandomWizard();
 }
 
-wizards.forEach(function (item, j) {
+var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
-  wizardElement.querySelector('.setup-similar-label').textContent = wizards[j].name;
-  wizardElement.querySelector('.wizard-coat').style.fill = wizards[j].coatColor;
-  wizardElement.querySelector('.wizard-eyes').style.fill = wizards[j].eyesColor;
-  similarWizardList.appendChild(wizardElement);
+  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
+  wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+  return wizardElement;
+};
+
+var fragment = document.createDocumentFragment();
+
+wizards.forEach(function (item, j) {
+  fragment.appendChild(renderWizard(wizards[j]));
 });
+
+similarWizardList.appendChild(fragment);
