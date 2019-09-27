@@ -23,7 +23,6 @@ var dialogWizardButtonFireBall = userDialog.querySelector('.setup-fireball-wrap'
 var dialogWizardInputFireBall = userDialog.querySelector('input[name=fireball-color]');
 
 
-
 var wizardСlothesChange = function (wizardItem, wizardInput, arrayColors) {
   wizardItem.addEventListener('click', function () {
     var color = getRandomElement(arrayColors);
