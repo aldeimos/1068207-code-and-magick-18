@@ -11,6 +11,7 @@ var COATS_COLOR = [
   'rgb(215, 0, 0)'
 ];
 var EYES_COLOR = ['black', 'red', 'yellow', 'blue', 'green'];
+var FIREBALLS_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
@@ -21,16 +22,11 @@ var userDialogClose = userDialog.querySelector('.setup-close');
 var userNameInput = document.querySelector('.setup-user-name');
 
 var similarWizardList = document.querySelector('.setup-similar-list');
-var similarWizardTemplate = document
-  .querySelector('#similar-wizard-template')
-  .content.querySelector('.setup-similar-item');
 
 var dialogWizard = document.querySelector('.setup-wizard');
 var dialogWizardButtonEyes = dialogWizard.querySelector('.wizard-eyes');
 var dialogWizardButtonCoat = dialogWizard.querySelector('.wizard-coat');
 var dialogWizardButtonFireBall = userDialog.querySelector('.setup-fireball-wrap');
-
-var wizards = [];
 
 var getPageActivated = function () {
   document.querySelector('.setup-similar').classList.remove('hidden');
@@ -47,32 +43,30 @@ var openUserDialog = function () {
   document.addEventListener('keydown', onPopupEscPress);
 };
 
+var openUserDialogByEnter = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openUserDialog();
+  }
+};
+
+var closeUserDialogByEnter = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closeUserDialog();
+  }
+};
+
 var closeUserDialog = function () {
   userDialog.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-userDialogOpen.addEventListener('click', function () {
-  openUserDialog();
-  setListenersOnWizard();
-});
+userDialogOpen.addEventListener('click', openUserDialog);
 
-userDialogOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    openUserDialog();
-    setListenersOnWizard();
-  }
-});
+userDialogOpen.addEventListener('keydown', openUserDialogByEnter);
 
-userDialogClose.addEventListener('click', function () {
-  closeUserDialog();
-});
+userDialogClose.addEventListener('click', closeUserDialog);
 
-userDialogClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    closeUserDialog();
-  }
-});
+userDialogClose.addEventListener('keydown', closeUserDialogByEnter);
 
 
 var onWizardCoatClick = function () {
@@ -92,7 +86,6 @@ var onWizardEyeClick = function () {
 
 var onWizardFireballClick = function () {
   var dialogWizardInputFireBall = userDialog.querySelector('input[name=fireball-color]');
-  var FIREBALLS_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
   var color = getRandomElement(FIREBALLS_COLOR);
   dialogWizardButtonFireBall.style.background = color;
   dialogWizardInputFireBall.value = color;
@@ -111,6 +104,7 @@ var getRandomElement = function (array) {
 };
 
 var getRandomWizard = function (quantity) {
+  var wizards = [];
   for (var i = 0; i < quantity; i++) {
     var objectTemplate = {
       name: getRandomElement(WIZARDS_NAMES) + ' ' + getRandomElement(WIZARDS_SURNAMES),
@@ -123,6 +117,9 @@ var getRandomWizard = function (quantity) {
 };
 
 var renderWizard = function (wizard) {
+  var similarWizardTemplate = document
+  .querySelector('#similar-wizard-template')
+  .content.querySelector('.setup-similar-item');
   var wizardElement = similarWizardTemplate.cloneNode(true);
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
@@ -138,8 +135,10 @@ var renderWizards = function (array) {
   similarWizardList.appendChild(fragment);
 };
 
-getRandomWizard(4);
+var wizards = getRandomWizard(4);
 
 renderWizards(wizards);
+
+setListenersOnWizard();
 
 getPageActivated();
