@@ -21,8 +21,6 @@ var userDialogOpen = document.querySelector('.setup-open');
 var userDialogClose = userDialog.querySelector('.setup-close');
 var userNameInput = document.querySelector('.setup-user-name');
 
-var similarWizardList = document.querySelector('.setup-similar-list');
-
 var dialogWizard = document.querySelector('.setup-wizard');
 var dialogWizardButtonEyes = dialogWizard.querySelector('.wizard-eyes');
 var dialogWizardButtonCoat = dialogWizard.querySelector('.wizard-coat');
@@ -128,6 +126,7 @@ var renderWizard = function (wizard) {
 };
 
 var renderWizards = function (array) {
+  var similarWizardList = document.querySelector('.setup-similar-list');
   var fragment = document.createDocumentFragment();
   array.forEach(function (item) {
     fragment.appendChild(renderWizard(item));
