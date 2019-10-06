@@ -12,8 +12,8 @@
     return left ? 5 : 2;
   };
 
-  window.getWizardHeight = function (wizardWidth) {
-    return 1.337 * wizardWidth;
+  window.getWizardHeight = function (widthWizard) {
+    return 1.337 * widthWizard;
   };
 
   window.getWizardX = function (width) {
