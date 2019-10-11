@@ -8,7 +8,7 @@
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
-      var formDownloadStatusHandler = function () {
+      var onFormUpload = function () {
         if (xhr.status === 200) {
           onSuccess(xhr.response); // renderWizards(wizards)
         } else {
@@ -16,17 +16,17 @@
         }
       };
 
-      var formServerErrorHandler = function () {
+      var onFormServerError = function () {
         onError('Произошла ошибка соединения');
       };
 
-      var formServerTimeoutHandler = function () {
+      var onFormServerTimeout = function () {
         onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
       };
-      xhr.addEventListener('load', formDownloadStatusHandler);
+      xhr.addEventListener('load', onFormUpload);
 
-      xhr.addEventListener('error', formServerErrorHandler);
-      xhr.addEventListener('timeout', formServerTimeoutHandler);
+      xhr.addEventListener('error', onFormServerError);
+      xhr.addEventListener('timeout', onFormServerTimeout);
 
       xhr.timeout = 10000;
 

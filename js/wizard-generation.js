@@ -16,7 +16,7 @@
   var shuffleArray = window.util.shuffleArray;
   var backendLoad = window.backend.load;
   var getRandomElement = window.util.getRandomElement;
-  var errorHandler = window.util.errorHandler;
+  var errorHandler = window.setup.errorHandler;
 
   var dialogWizard = document.querySelector('.setup-wizard');
   var dialogWizardButtonEyes = dialogWizard.querySelector('.wizard-eyes');
@@ -73,6 +73,10 @@
     similarWizardList.appendChild(fragment);
   };
 
-  backendLoad(renderWizards, errorHandler);
+  var successHandler = function (array) {
+    renderWizards(array);
+  };
+
+  backendLoad(successHandler, errorHandler);
   setListenersOnWizard();
 })();
