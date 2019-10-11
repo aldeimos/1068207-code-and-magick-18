@@ -38,7 +38,7 @@
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
-      var formUploadStatusHandler = function () {
+      var onFormUploadStatus = function () {
         if (xhr.status === 200) {
           onLoad(xhr.response);
         } else {
@@ -46,7 +46,7 @@
         }
       };
 
-      xhr.addEventListener('load', formUploadStatusHandler);
+      xhr.addEventListener('load', onFormUploadStatus);
 
       xhr.open('POST', POST_URL);
       xhr.send(data);
