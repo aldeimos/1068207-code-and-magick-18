@@ -1,22 +1,6 @@
 'use strict';
 
 (function () {
-  window.getRandomElement = function (array) {
-    return array[Math.floor(Math.random() * array.length)];
-  };
-  var shuffleArray = function (array, min, max) {
-    var tempArray = array;
-    for (var i = tempArray.length - 1; i > 0; i--) {
-      var j = getRandomNumber(i);
-      var temp = tempArray[i];
-      tempArray[i] = tempArray[j];
-      tempArray[j] = temp;
-    }
-    return tempArray.slice(min, max);
-  };
-  var getRandomNumber = function (number) {
-    return Math.floor(Math.random() * (number + 1));
-  };
   window.util = (function () {
     var ESC_KEYCODE = 27;
     var ENTER_KEYCODE = 13;
@@ -31,8 +15,35 @@
           action();
         }
       },
-      getRandomNumber: getRandomNumber,
-      shuffleArray: shuffleArray
+
+      getRandomNumber: function (number) {
+        return Math.floor(Math.random() * (number + 1));
+      },
+
+      shuffleArray: function (array) {
+        var tempArray = array;
+        for (var i = tempArray.length - 1; i > 0; i--) {
+          var j = window.util.getRandomNumber(i);
+          var temp = tempArray[i];
+          tempArray[i] = tempArray[j];
+          tempArray[j] = temp;
+        }
+        return tempArray;
+      },
+      getRandomElement: function (array) {
+        return array[Math.floor(Math.random() * array.length)];
+      },
+      errorHandler: function (errorMessage) {
+        var node = document.createElement('div');
+        node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+        node.style.position = 'absolute';
+        node.style.left = 0;
+        node.style.right = 0;
+        node.style.fontSize = '30px';
+
+        node.textContent = errorMessage;
+        document.body.insertAdjacentElement('afterbegin', node);
+      }
     };
   })();
 })();

@@ -15,7 +15,8 @@
 
   var shuffleArray = window.util.shuffleArray;
   var backendLoad = window.backend.load;
-  var errorHandler = window.backend.errorHandler;
+  var getRandomElement = window.util.getRandomElement;
+  var errorHandler = window.util.errorHandler;
 
   var dialogWizard = document.querySelector('.setup-wizard');
   var dialogWizardButtonEyes = dialogWizard.querySelector('.wizard-eyes');
@@ -24,7 +25,7 @@
 
   var onWizardCoatClick = function () {
     var dialogWizardInputCoat = window.userDialog.querySelector('input[name=coat-color');
-    var color = window.getRandomElement(COATS_COLOR);
+    var color = getRandomElement(COATS_COLOR);
     dialogWizardButtonCoat.style.fill = color;
     dialogWizardInputCoat.value = color;
   };
@@ -32,14 +33,14 @@
   var onWizardEyeClick = function () {
     var dialogWizardInputEyes = window.userDialog.querySelector('input[name=eyes-color');
 
-    var color = window.getRandomElement(EYES_COLOR);
+    var color = getRandomElement(EYES_COLOR);
     dialogWizardButtonEyes.style.fill = color;
     dialogWizardInputEyes.value = color;
   };
 
   var onWizardFireballClick = function () {
     var dialogWizardInputFireBall = window.userDialog.querySelector('input[name=fireball-color]');
-    var color = window.getRandomElement(FIREBALLS_COLOR);
+    var color = getRandomElement(FIREBALLS_COLOR);
     dialogWizardButtonFireBall.style.background = color;
     dialogWizardInputFireBall.value = color;
   };
@@ -62,15 +63,16 @@
     return wizardElement;
   };
 
-  var successHandler = function (wizards) {
+  var renderWizards = function (wizards) {
     var similarWizardList = document.querySelector('.setup-similar-list');
     var fragment = document.createDocumentFragment();
-    var shuffledWizardsArray = shuffleArray(wizards, 0, 3);
+    var shuffledWizardsArray = shuffleArray(wizards).slice(0, 3);
     for (var i = 0; i <= shuffledWizardsArray.length; i++) {
       fragment.appendChild(renderWizard(wizards[i]));
     }
     similarWizardList.appendChild(fragment);
   };
-  backendLoad(successHandler, errorHandler);
+
+  backendLoad(renderWizards, errorHandler);
   setListenersOnWizard();
 })();

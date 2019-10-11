@@ -8,19 +8,25 @@
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
-      xhr.addEventListener('load', function () {
+      var formDownloadStatusHandler = function () {
         if (xhr.status === 200) {
-          onSuccess(xhr.response);
+          onSuccess(xhr.response); // renderWizards(wizards)
         } else {
-          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText); // errorHandler
         }
-      });
-      xhr.addEventListener('error', function () {
+      };
+
+      var formServerErrorHandler = function () {
         onError('Произошла ошибка соединения');
-      });
-      xhr.addEventListener('timeout', function () {
+      };
+
+      var formServerTimeoutHandler = function () {
         onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-      });
+      };
+      xhr.addEventListener('load', formDownloadStatusHandler);
+
+      xhr.addEventListener('error', formServerErrorHandler);
+      xhr.addEventListener('timeout', formServerTimeoutHandler);
 
       xhr.timeout = 10000;
 
@@ -32,27 +38,18 @@
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
-      xhr.addEventListener('load', function () {
+      var formUploadStatusHandler = function () {
         if (xhr.status === 200) {
           onLoad(xhr.response);
         } else {
           onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
         }
-      });
+      };
+
+      xhr.addEventListener('load', formUploadStatusHandler);
 
       xhr.open('POST', POST_URL);
       xhr.send(data);
-    },
-    errorHandler: function (errorMessage) {
-      var node = document.createElement('div');
-      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-      node.style.position = 'absolute';
-      node.style.left = 0;
-      node.style.right = 0;
-      node.style.fontSize = '30px';
-
-      node.textContent = errorMessage;
-      document.body.insertAdjacentElement('afterbegin', node);
     }
   };
 })();
