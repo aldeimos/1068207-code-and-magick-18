@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  window.getRandomElement = function (array) {
-    return array[Math.floor(Math.random() * array.length)];
-  };
   window.util = (function () {
     var ESC_KEYCODE = 27;
     var ENTER_KEYCODE = 13;
@@ -17,7 +14,25 @@
         if (evt.keyCode === ENTER_KEYCODE) {
           action();
         }
-      }
+      },
+
+      getRandomNumber: function (number) {
+        return Math.floor(Math.random() * (number + 1));
+      },
+
+      shuffleArray: function (array) {
+        var tempArray = array;
+        for (var i = tempArray.length - 1; i > 0; i--) {
+          var j = window.util.getRandomNumber(i);
+          var temp = tempArray[i];
+          tempArray[i] = tempArray[j];
+          tempArray[j] = temp;
+        }
+        return tempArray;
+      },
+      getRandomElement: function (array) {
+        return array[Math.floor(Math.random() * array.length)];
+      },
     };
   })();
 })();

@@ -38,7 +38,6 @@
   };
 
   onDialogMouseDown.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
 
     var starsCoords = {
       x: evt.clientX,
@@ -48,7 +47,6 @@
     var dragged = false;
 
     var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
       dragged = true;
       var shift = {
         x: starsCoords.x - moveEvt.clientX,
@@ -61,11 +59,6 @@
       };
       window.userDialog.style.top = (window.userDialog.offsetTop - shift.y) + 'px';
       window.userDialog.style.left = (window.userDialog.offsetLeft - shift.x) + 'px';
-    };
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
 
       if (dragged) {
         var onClickPreventDefault = function (evtPrevent) {
@@ -74,6 +67,11 @@
         };
         onDialogMouseDown.addEventListener('click', onClickPreventDefault);
       }
+    };
+    var onMouseUp = function () {
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
     };
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
