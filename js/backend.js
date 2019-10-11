@@ -8,7 +8,7 @@
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
-      var onFormUpload = function () {
+      var onFormDownload = function () {
         if (xhr.status === 200) {
           onSuccess(xhr.response); // renderWizards(wizards)
         } else {
@@ -23,7 +23,7 @@
       var onFormServerTimeout = function () {
         onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
       };
-      xhr.addEventListener('load', onFormUpload);
+      xhr.addEventListener('load', onFormDownload);
 
       xhr.addEventListener('error', onFormServerError);
       xhr.addEventListener('timeout', onFormServerTimeout);
