@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-
   var userDialog = window.userDialog;
   var backendSave = window.backend.save;
 

@@ -1,9 +1,11 @@
 'use strict';
 
 (function () {
+  var lastTimeout;
   window.util = (function () {
     var ESC_KEYCODE = 27;
     var ENTER_KEYCODE = 13;
+    var DEBOUNCE_INTERVAL = 300;
     return {
       isEscEvent: function (evt, action, activeElement) {
         if (evt.keyCode === ESC_KEYCODE && activeElement !== document.activeElement) {
@@ -33,6 +35,12 @@
       getRandomElement: function (array) {
         return array[Math.floor(Math.random() * array.length)];
       },
+      debounce: function (cb) {
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
+      }
     };
   })();
 })();

@@ -13,29 +13,47 @@
   var EYES_COLOR = ['black', 'red', 'yellow', 'blue', 'green'];
   var FIREBALLS_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
-  var shuffleArray = window.util.shuffleArray;
   var backendLoad = window.backend.load;
   var getRandomElement = window.util.getRandomElement;
   var errorHandler = window.setup.errorHandler;
+  var debounce = window.util.debounce;
 
   var dialogWizard = document.querySelector('.setup-wizard');
   var dialogWizardButtonEyes = dialogWizard.querySelector('.wizard-eyes');
   var dialogWizardButtonCoat = dialogWizard.querySelector('.wizard-coat');
   var dialogWizardButtonFireBall = window.userDialog.querySelector('.setup-fireball-wrap');
 
+  var currentCoatColor;
+  var currentEyesColor;
+  var similiarWizards = [];
+
+  var getRank = function (wizard) {
+    var rank = 0;
+
+    if (wizard.colorCoat === currentCoatColor) {
+      rank += 2;
+    }
+    if (wizard.colorEyes === currentEyesColor) {
+      rank += 1;
+    }
+
+    return rank;
+  };
+
   var onWizardCoatClick = function () {
     var dialogWizardInputCoat = window.userDialog.querySelector('input[name=coat-color');
-    var color = getRandomElement(COATS_COLOR);
-    dialogWizardButtonCoat.style.fill = color;
-    dialogWizardInputCoat.value = color;
+    currentCoatColor = getRandomElement(COATS_COLOR);
+    dialogWizardButtonCoat.style.fill = currentCoatColor;
+    dialogWizardInputCoat.value = currentCoatColor;
+    debounce(updateWizards);
   };
 
   var onWizardEyeClick = function () {
     var dialogWizardInputEyes = window.userDialog.querySelector('input[name=eyes-color');
-
-    var color = getRandomElement(EYES_COLOR);
-    dialogWizardButtonEyes.style.fill = color;
-    dialogWizardInputEyes.value = color;
+    currentEyesColor = getRandomElement(EYES_COLOR);
+    dialogWizardButtonEyes.style.fill = currentEyesColor;
+    dialogWizardInputEyes.value = currentEyesColor;
+    debounce(updateWizards);
   };
 
   var onWizardFireballClick = function () {
@@ -63,18 +81,26 @@
     return wizardElement;
   };
 
-  var renderWizards = function (wizards) {
+  var updateWizards = function () {
+    renderWizards(similiarWizards.sort(function (left, right) {
+      return getRank(right) - getRank(left);
+    }));
+  };
+
+  var renderWizards = function (wizards) { // функция, которая отрисовывает мага
     var similarWizardList = document.querySelector('.setup-similar-list');
     var fragment = document.createDocumentFragment();
-    var shuffledWizardsArray = shuffleArray(wizards).slice(0, 3);
-    for (var i = 0; i <= shuffledWizardsArray.length; i++) {
-      fragment.appendChild(renderWizard(wizards[i]));
-    }
+    similarWizardList.innerHTML = '';
+    wizards.slice(0, 4).forEach(function (item) { // почему слайс работает так странно? Должен вернуть массив из пяти элементов, а возвращает из 4
+      fragment.appendChild(renderWizard(item));
+    });
     similarWizardList.appendChild(fragment);
   };
 
+
   var successHandler = function (array) {
-    renderWizards(array);
+    similiarWizards = array;
+    updateWizards();
   };
 
   backendLoad(successHandler, errorHandler);
