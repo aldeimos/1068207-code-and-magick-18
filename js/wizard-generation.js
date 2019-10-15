@@ -42,19 +42,17 @@
 
   var onWizardCoatClick = function () {
     var dialogWizardInputCoat = window.userDialog.querySelector('input[name=coat-color');
-    var color = getRandomElement(COATS_COLOR);
-    dialogWizardButtonCoat.style.fill = color;
-    dialogWizardInputCoat.value = color;
-    currentCoatColor = color;
+    currentCoatColor = getRandomElement(COATS_COLOR);
+    dialogWizardButtonCoat.style.fill = currentCoatColor;
+    dialogWizardInputCoat.value = currentCoatColor;
     debounce(updateWizards);
   };
 
   var onWizardEyeClick = function () {
     var dialogWizardInputEyes = window.userDialog.querySelector('input[name=eyes-color');
-    var color = getRandomElement(EYES_COLOR);
-    dialogWizardButtonEyes.style.fill = color;
-    dialogWizardInputEyes.value = color;
-    currentEyesColor = color;
+    currentEyesColor = getRandomElement(EYES_COLOR);
+    dialogWizardButtonEyes.style.fill = currentEyesColor;
+    dialogWizardInputEyes.value = currentEyesColor;
     debounce(updateWizards);
   };
 
@@ -92,11 +90,10 @@
   var renderWizards = function (wizards) { // функция, которая отрисовывает мага
     var similarWizardList = document.querySelector('.setup-similar-list');
     var fragment = document.createDocumentFragment();
-    var takeNumber = wizards.length > 4 ? 4 : wizards.length;
     similarWizardList.innerHTML = '';
-    for (var i = 0; i < takeNumber; i++) {
-      fragment.appendChild(renderWizard(wizards[i]));
-    }
+    wizards.slice(0, 4).forEach(function (item) {
+      fragment.appendChild(renderWizard(item));
+    });
     similarWizardList.appendChild(fragment);
   };
 
