@@ -87,11 +87,11 @@
     }));
   };
 
-  var renderWizards = function (wizards) { // функция, которая отрисовывает мага
+  var renderWizards = function (wizards) {
     var similarWizardList = document.querySelector('.setup-similar-list');
     var fragment = document.createDocumentFragment();
     similarWizardList.innerHTML = '';
-    wizards.slice(0, 4).forEach(function (item) { // почему слайс работает так странно? Должен вернуть массив из пяти элементов, а возвращает из 4
+    wizards.slice(0, 4).forEach(function (item) {
       fragment.appendChild(renderWizard(item));
     });
     similarWizardList.appendChild(fragment);
